@@ -19,30 +19,31 @@ import br.com.carloswayand.pessoas.JavaSparkRunnerExtension.SparkStarter;
 import br.com.carloswayand.pessoas.core.data.IRepository;
 import br.com.carloswayand.pessoas.core.data.MemoryRepository;
 import br.com.carloswayand.pessoas.domain.Pessoa;
-import br.com.carloswayand.pessoas.resources.core.JsonUtils;
-import br.com.carloswayand.pessoas.resources.core.JsonResponseTransformer;
+import br.com.carloswayand.pessoas.resources.utils.JsonResponseTransformer;
+import br.com.carloswayand.pessoas.resources.utils.JsonUtils;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
 @ExtendWith({ ResourceTest.class, JavaSparkRunnerExtension.class })
-class PessoaUpdateResourceTest {
+class PessoaPatchResourceTest {
 
 	protected static IRepository<Pessoa> repository = new MemoryRepository<Pessoa>();
 	
 	@BeforeAll
 	static void beforeAll(SparkStarter s) {
 		s.runSpark(http -> {
-			http.patch("/api/v1/pessoas/:id", new PessoaUpdateResource(repository), new JsonResponseTransformer());
+			http.patch("/api/v1/pessoas/:id", new PessoaPatchResource(repository), new JsonResponseTransformer());
 		});
 	}
 	
 	@Test
 	void update() throws JsonProcessingException {
-		var create = repository.create(new Pessoa("update", LocalDate.of(1970, 12, 31)));
+		var create = repository.create(new Pessoa("update", LocalDate.of(1970, 12, 31), "020.400.270-25"));
 		
 		Map<String, Object> map = JsonUtils.fromJsonToMap(JsonUtils.fromObjectToJson(create));
 		map.put("nome",  "ALTERANDO O NOME");
-		Pessoa fromMap = JsonUtils.fromMapToJson(map, Pessoa.class);		
+		map.put("naturalidade",  "Petrópolis");
+		Pessoa fromMap = JsonUtils.fromMapToObject(map, Pessoa.class);		
 		
 		HttpResponse<String> response = Unirest.spawnInstance().patch(ResourceTest.getPath("/api/v1/pessoas/" + create.getId())).body(JsonUtils.fromObjectToJson(fromMap)).asString();
 		Pessoa from = JsonUtils.fromJsonToObject(response.getBody(), Pessoa.class);
@@ -61,7 +62,7 @@ class PessoaUpdateResourceTest {
 	
 	@Test
 	void naoDeveAtualizarCasoNaoHajaAlteracoes() throws JsonProcessingException {
-		var create = repository.create(new Pessoa("naoDeveAtualizarCasoNaoHajaAlteracoes", LocalDate.of(1970, 12, 31)));
+		var create = repository.create(new Pessoa("naoDeveAtualizarCasoNaoHajaAlteracoes", LocalDate.of(1970, 12, 31), ""));
 		HttpResponse<String> response = Unirest.spawnInstance().patch(ResourceTest.getPath("/api/v1/pessoas/" + create.getId())).body(JsonUtils.fromObjectToJson(create)).asString();
 		Pessoa from = JsonUtils.fromJsonToObject(response.getBody(), Pessoa.class);
 		

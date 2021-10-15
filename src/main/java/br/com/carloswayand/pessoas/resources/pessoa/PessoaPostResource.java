@@ -1,29 +1,25 @@
 package br.com.carloswayand.pessoas.resources.pessoa;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import br.com.carloswayand.pessoas.core.data.IRepository;
 import br.com.carloswayand.pessoas.domain.Pessoa;
-import br.com.carloswayand.pessoas.resources.core.JsonUtils;
+import br.com.carloswayand.pessoas.resources.core.PostResource;
+import br.com.carloswayand.pessoas.resources.utils.BeanValidator;
+import br.com.carloswayand.pessoas.resources.utils.JsonUtils;
 import spark.Request;
-import spark.Response;
-import spark.Route;
 
-public class PessoaPostResource implements Route {
+public class PessoaPostResource implements PostResource<Pessoa> {
 	private IRepository<Pessoa> repository;
-	
+
 	public PessoaPostResource(IRepository<Pessoa> repository) {
 		this.repository = repository;
 	}
-	
-	@Override
-	public Pessoa handle(Request request, Response response) throws Exception {
-		return handlePost(request);
-	}
 
-	private Pessoa handlePost(Request request) throws JsonProcessingException {
-		var pessoa = JsonUtils.fromJsonToObject(request.body(), Pessoa.class);
+	@Override
+	public Pessoa handlePost(Request request) {
+		Pessoa pessoa = JsonUtils.fromJsonToObject(request.body(), Pessoa.class);
+		BeanValidator.validate(pessoa);
+		
 		return this.repository.create(pessoa);
 	}
-	
+
 }

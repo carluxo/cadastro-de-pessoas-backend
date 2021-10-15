@@ -1,4 +1,4 @@
-package br.com.carloswayand.pessoas.resources.core;
+package br.com.carloswayand.pessoas.resources.utils;
 
 import spark.ResponseTransformer;
 

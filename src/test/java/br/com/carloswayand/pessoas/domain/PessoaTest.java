@@ -10,7 +10,7 @@ class PessoaTest {
 
 	@Test
 	void setAndGetId() {
-		Pessoa pessoa = new Pessoa("SET ID", LocalDate.now());
+		Pessoa pessoa = new Pessoa("SET ID", LocalDate.now(), "");
 		pessoa.setId("1");
 		
 		assertEquals("1", pessoa.getId());
@@ -18,7 +18,7 @@ class PessoaTest {
 	
 	@Test
 	void dontSetId() {
-		Pessoa pessoa = new Pessoa("SET ID", LocalDate.now());
+		Pessoa pessoa = new Pessoa("SET ID", LocalDate.now(), "");
 		pessoa.setId("");
 		
 		assertNull(pessoa.getId());
@@ -39,14 +39,14 @@ class PessoaTest {
 	
 	@Test
 	void setCreatedAt() {
-		Pessoa pessoa = new Pessoa("SET ID", LocalDate.now());
+		Pessoa pessoa = new Pessoa("SET ID", LocalDate.now(), "");
 		pessoa.update();
 		assertNotNull(pessoa.getCreatedAt());
 	}
 	
 	@Test
 	void setUpdatedAt() {
-		Pessoa pessoa = new Pessoa("SET ID", LocalDate.now());
+		Pessoa pessoa = new Pessoa("SET ID", LocalDate.now(), "");
 		pessoa.update();
 		assertNotNull(pessoa.getCreatedAt());
 		

@@ -1,8 +1,9 @@
-package br.com.carloswayand.pessoas.resources.core;
+package br.com.carloswayand.pessoas.resources.utils;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
@@ -10,12 +11,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import br.com.carloswayand.pessoas.domain.Pessoa;
+import br.com.carloswayand.pessoas.resources.utils.JsonUtilException;
+import br.com.carloswayand.pessoas.resources.utils.JsonUtils;
 
 class JsonUtilsTest {
 	protected static JsonObjectTest created;
@@ -59,12 +65,23 @@ class JsonUtilsTest {
 	@Test
 	void deveTransformarEmObjetoDeUmHashMap() throws JsonProcessingException {
 		Map<String, Object> map = JsonUtils.fromJsonToMap(JsonUtils.fromObjectToJson(created));
-		var jsonFromMap = JsonUtils.fromMapToJson(map, JsonObjectTest.class);
+		var jsonFromMap = JsonUtils.fromMapToObject(map, JsonObjectTest.class);
 		
 		assertNotNull(jsonFromMap);
 		assertEquals("TESTE", jsonFromMap.nome);
 		assertEquals(date , jsonFromMap.data);
 	}
+	
+	@Test
+	void deveLancarExcecaoEmCasoDeJsonInvalido() {
+		assertThrows(JsonUtilException.class, () ->  JsonUtils.fromJsonToMap("{\"teste\":}"));
+		assertThrows(JsonUtilException.class, () ->  JsonUtils.fromJsonToObject("{\"coisa\"}", Pessoa.class));
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("coisa", "");		
+		assertThrows(JsonUtilException.class, () ->  JsonUtils.fromMapToObject(map, Pessoa.class));
+	}
+	
 }
 
 class JsonObjectTest {

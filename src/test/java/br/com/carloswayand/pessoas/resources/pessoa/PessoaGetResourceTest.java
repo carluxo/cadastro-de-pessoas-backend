@@ -19,24 +19,24 @@ import br.com.carloswayand.pessoas.JavaSparkRunnerExtension.SparkStarter;
 import br.com.carloswayand.pessoas.core.data.IRepository;
 import br.com.carloswayand.pessoas.core.data.MemoryRepository;
 import br.com.carloswayand.pessoas.domain.Pessoa;
-import br.com.carloswayand.pessoas.resources.core.JsonUtils;
-import br.com.carloswayand.pessoas.resources.core.JsonResponseTransformer;
+import br.com.carloswayand.pessoas.resources.utils.JsonResponseTransformer;
+import br.com.carloswayand.pessoas.resources.utils.JsonUtils;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
 @ExtendWith({ ResourceTest.class, JavaSparkRunnerExtension.class })
-class PessoaReadAllResourceTest {
+class PessoaGetResourceTest {
 	
 	protected static IRepository<Pessoa> repository = new MemoryRepository<Pessoa>();
 	
 	@BeforeAll
 	static void beforeAll(SparkStarter s) {
-		repository.create(new Pessoa("TESTE UM", LocalDate.MIN));
-		repository.create(new Pessoa("TESTE DOIS", LocalDate.MIN));
-		repository.create(new Pessoa("TESTE TRES", LocalDate.MIN));
+		repository.create(new Pessoa("TESTE UM", LocalDate.MIN, "020.400.270-25"));
+		repository.create(new Pessoa("TESTE DOIS", LocalDate.MIN, "794.876.840-85"));
+		repository.create(new Pessoa("TESTE TRES", LocalDate.MIN, "011.627.030-67"));
 		
 		s.runSpark(http -> {
-			http.get("/api/v1/pessoas", new PessoaReadAllResource(repository), new JsonResponseTransformer());
+			http.get("/api/v1/pessoas", new PessoaGetResource(repository), new JsonResponseTransformer());
 		});
 	}
 	

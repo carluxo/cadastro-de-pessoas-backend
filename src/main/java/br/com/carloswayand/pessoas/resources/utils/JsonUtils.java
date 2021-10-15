@@ -1,11 +1,10 @@
-package br.com.carloswayand.pessoas.resources.core;
+package br.com.carloswayand.pessoas.resources.utils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -25,23 +24,38 @@ public class JsonUtils {
 
 	}
 
-	public static String fromObjectToJson(Object model) throws JsonProcessingException {
-		return MAPPER.writeValueAsString(model);
+	public static String fromObjectToJson(Object model) {
+		try {
+			return MAPPER.writeValueAsString(model);
+		} catch (Exception e) {
+			throw new JsonUtilException(e);
+		}
 	}
 
-	public static <T> T fromJsonToObject(String json, Class<T> type) throws JsonProcessingException {
-		return MAPPER.readValue(json, type);
+	public static <T> T fromJsonToObject(String json, Class<T> type) {
+		try {
+			return MAPPER.readValue(json, type);
+		} catch (Exception e) {
+			throw new JsonUtilException(e);
+		}
 	}
 
-	public static Map<String, Object> fromJsonToMap(String json) throws JsonProcessingException {
+	public static Map<String, Object> fromJsonToMap(String json) {
 		TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {
 		};
-
-		return MAPPER.readValue(json, typeRef);
+		try {
+			return MAPPER.readValue(json, typeRef);
+		} catch (Exception e) {
+			throw new JsonUtilException(e);
+		}
 	}
-	
-	public static <T> T fromMapToJson(Map<String, Object> map, Class<T> type) throws JsonProcessingException {
-		String json = fromObjectToJson(map);
-		return fromJsonToObject(json, type);
+
+	public static <T> T fromMapToObject(Map<String, Object> map, Class<T> type) {
+		try {
+			String json = fromObjectToJson(map);
+			return fromJsonToObject(json, type);
+		} catch (Exception e) {
+			throw new JsonUtilException(e);
+		}
 	}
 }

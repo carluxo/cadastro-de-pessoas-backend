@@ -2,11 +2,9 @@ package br.com.carloswayand.pessoas.resources.pessoa;
 
 import br.com.carloswayand.pessoas.core.data.IRepository;
 import br.com.carloswayand.pessoas.domain.Pessoa;
-import spark.Request;
-import spark.Response;
-import spark.Route;
+import br.com.carloswayand.pessoas.resources.core.IdentifiableDeleteResource;
 
-public class PessoaDeleteResource implements Route {
+public class PessoaDeleteResource implements IdentifiableDeleteResource {
 
 	private IRepository<Pessoa> repository;
 
@@ -15,13 +13,9 @@ public class PessoaDeleteResource implements Route {
 	}
 
 	@Override
-	public Object handle(Request request, Response response) throws Exception {
-		String id = request.params("id");
+	public void handleDelete(String id) {
 		this.repository.findById(id);
-		this.repository.delete(id);
-		
-		response.status(204);
-		return "";
+		this.repository.delete(id);		
 	}
 
 }

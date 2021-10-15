@@ -16,14 +16,14 @@ import br.com.carloswayand.pessoas.JavaSparkRunnerExtension;
 import br.com.carloswayand.pessoas.JavaSparkRunnerExtension.SparkStarter;
 import br.com.carloswayand.pessoas.core.data.MemoryRepository;
 import br.com.carloswayand.pessoas.domain.Pessoa;
-import br.com.carloswayand.pessoas.resources.core.JsonUtils;
-import br.com.carloswayand.pessoas.resources.core.JsonResponseTransformer;
+import br.com.carloswayand.pessoas.resources.utils.JsonResponseTransformer;
+import br.com.carloswayand.pessoas.resources.utils.JsonUtils;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import kong.unirest.UnirestException;
 
 @ExtendWith({ ResourceTest.class, JavaSparkRunnerExtension.class })
-class PessoaCreateResourceTest {
+class PessoaPostResourceTest {
 
 	@BeforeAll
 	static void beforeAll(SparkStarter s) {
@@ -34,7 +34,7 @@ class PessoaCreateResourceTest {
 
 	@Test
 	void deveCriarNovaPessoa() throws UnirestException, JsonProcessingException {
-		var pessoa = new Pessoa("Um Dois Tres de Oliveira Quatro", LocalDate.of(1970, 1, 2));
+		var pessoa = new Pessoa("Um Dois Tres de Oliveira Quatro", LocalDate.of(1970, 1, 2), "020.400.270-25");
 		
 		HttpResponse<String> response = Unirest.spawnInstance().post(ResourceTest.getPath("/api/v1/pessoas")).body(JsonUtils.fromObjectToJson(pessoa)).asString();
 		assertEquals(200, response.getStatus());
