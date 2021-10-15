@@ -20,8 +20,6 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import br.com.carloswayand.pessoas.domain.Pessoa;
-import br.com.carloswayand.pessoas.resources.utils.JsonUtilException;
-import br.com.carloswayand.pessoas.resources.utils.JsonUtils;
 
 class JsonUtilsTest {
 	protected static JsonObjectTest created;
