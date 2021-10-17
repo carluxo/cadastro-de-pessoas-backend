@@ -14,9 +14,9 @@ public abstract class AuthenticationFilter implements Filter {
 	
 	@Override
 	public void handle(Request request, Response response) throws Exception {
-		this.handleAuthentication(request);
+		this.handleAuthentication(request, response);
 	}
 
-	protected abstract void handleAuthentication(Request request);
+	protected abstract void handleAuthentication(Request request, Response response);
 
 }

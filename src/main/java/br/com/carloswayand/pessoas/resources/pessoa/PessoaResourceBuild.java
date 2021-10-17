@@ -25,7 +25,9 @@ public class PessoaResourceBuild extends ResourceBuild {
 		service.delete(path + "/:id", new PessoaDeleteResource(repository));
 
 		AuthenticationService authenticationService = new BasicAuthenticationService();
-		service.before(path, new BasicAuthenticationFilter(authenticationService));
+		BasicAuthenticationFilter filter = new BasicAuthenticationFilter(authenticationService);
+		service.before(path, filter);
+		service.before(path + "/:id", filter);
 	}
 
 }

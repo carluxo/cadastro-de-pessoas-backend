@@ -11,10 +11,5 @@ public class AutenticacaoResourceBuild extends ResourceBuild {
 	@Override
 	protected void initializeEndpoints() {
 		service.post(path, new AutenticacaoPostResource(new BasicAuthenticationService()));
-		
-		service.exception(AuthenticationException.class, (exception, request, response) -> {
-			response.status(400);
-			response.body("{\"message\":\"" + exception.getMessage() + "\"}");
-		});	
 	}
 }

@@ -19,8 +19,7 @@ public class AutenticacaoPostResource implements Route   {
 		Autenticacao autenticacao = JsonUtils.fromJsonToObject(request.body(), Autenticacao.class);
 		BeanValidator.validate(autenticacao);
 		String token = this.service.authenticate(autenticacao.toString());
-		response.header("Authorization", "Basic " + token);
-		return "";
+		return "{\"token\":\"" + token + "\"}";
 	}
 
 }
