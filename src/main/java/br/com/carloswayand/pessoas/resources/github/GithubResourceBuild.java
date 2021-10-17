@@ -6,7 +6,7 @@ import spark.Service;
 public class GithubResourceBuild extends ResourceBuild {
 
 	public GithubResourceBuild(Service service) {
-		super(service, "/api/v1/repositories");
+		super(service, "/source");
 	}
 	
 	@Override

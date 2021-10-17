@@ -24,7 +24,7 @@ class GithubGetResourceTest {
 
 	@Test
 	void test() {
-		HttpResponse<String> response = Unirest.spawnInstance().get(ResourceTest.getPath("/api/v1/repositories")).asString();
+		HttpResponse<String> response = Unirest.spawnInstance().get(ResourceTest.getPath("/source")).asString();
 		assertEquals(200, response.getStatus());
 		assertNotNull(response.getBody());
 	}
