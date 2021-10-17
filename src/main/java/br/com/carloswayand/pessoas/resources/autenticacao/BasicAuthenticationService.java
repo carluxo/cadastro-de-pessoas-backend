@@ -47,8 +47,18 @@ public class BasicAuthenticationService implements AuthenticationService {
 			}
 		} catch(Exception e) {
 			throw new AuthenticationException("Token inválido");
+		}		
+	}
+
+	@Override
+	public void unauthenticate(String token) {
+		if (token != null && !token.isBlank()) {
+			String[] basic = token.split(" ");
+			
+			if ("Basic".equals(basic[0]) || authenticatedies.contains(basic[1])) {
+				authenticatedies.remove(basic[1]);
+			}					
 		}
-		
 	}
 
 }

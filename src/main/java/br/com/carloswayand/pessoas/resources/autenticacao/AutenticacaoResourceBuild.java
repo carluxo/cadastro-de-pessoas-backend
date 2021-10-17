@@ -10,6 +10,9 @@ public class AutenticacaoResourceBuild extends ResourceBuild {
 
 	@Override
 	protected void initializeEndpoints() {
-		service.post(path, new AutenticacaoPostResource(new BasicAuthenticationService()));
+		var authenticationService = new BasicAuthenticationService();
+		
+		service.post(path, new AutenticacaoPostResource(authenticationService));
+		service.delete(path, new AutenticacaoDeleteResource(authenticationService));
 	}
 }
