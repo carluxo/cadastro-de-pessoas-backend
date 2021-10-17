@@ -2,7 +2,7 @@ package br.com.carloswayand.pessoas.core.data;
 
 import java.util.List;
 
-public interface IRepository<T extends Identifiable> {
+public interface Repository<T extends Identifiable> {
 	T create(T pessoa);
 	List<T> findAll();
 	T findById(String id);

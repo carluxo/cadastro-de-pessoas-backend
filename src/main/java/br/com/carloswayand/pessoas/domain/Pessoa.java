@@ -26,7 +26,7 @@ public class Pessoa extends Identifiable {
 	protected String naturalidade;
 	protected String nacionalidade;
 	
-	@NotNull
+	@NotNull(message="Data de nascimento deve ser informada")
 	@PastOrPresent(message = "Data de nascimento inválida")
 	protected Instant nascimento;
 	
@@ -69,5 +69,9 @@ public class Pessoa extends Identifiable {
 
 	public Instant getNascimento() {
 		return nascimento;
+	}
+
+	public String getCpf() {
+		return cpf;
 	}	
 }

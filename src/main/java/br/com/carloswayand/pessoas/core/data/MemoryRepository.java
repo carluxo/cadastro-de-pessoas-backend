@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class MemoryRepository<T extends Identifiable> implements IRepository<T> {
+public class MemoryRepository<T extends Identifiable> implements Repository<T> {
 	protected static Long lastId = 0L;
-	ConcurrentHashMap<String, T> database = new ConcurrentHashMap<>();
+	protected ConcurrentHashMap<String, T> database = new ConcurrentHashMap<>();
 
 	private static Long getNextId() {
 		lastId = lastId + 1L;

@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 class MemoryRepositoryTest {
 	protected static MemoryRepositoryObject teste = new MemoryRepositoryObject();
-	protected static IRepository<MemoryRepositoryObject> repository = new MemoryRepository<>(); 
+	protected static Repository<MemoryRepositoryObject> repository = new MemoryRepository<>(); 
 	
 	
 	@Test

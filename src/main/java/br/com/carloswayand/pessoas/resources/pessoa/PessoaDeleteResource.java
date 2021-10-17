@@ -1,14 +1,14 @@
 package br.com.carloswayand.pessoas.resources.pessoa;
 
-import br.com.carloswayand.pessoas.core.data.IRepository;
+import br.com.carloswayand.pessoas.core.data.Repository;
 import br.com.carloswayand.pessoas.domain.Pessoa;
 import br.com.carloswayand.pessoas.resources.core.IdentifiableDeleteResource;
 
 public class PessoaDeleteResource implements IdentifiableDeleteResource {
 
-	private IRepository<Pessoa> repository;
+	private Repository<Pessoa> repository;
 
-	public PessoaDeleteResource(IRepository<Pessoa> repository) {
+	public PessoaDeleteResource(Repository<Pessoa> repository) {
 		this.repository = repository;
 	}
 
