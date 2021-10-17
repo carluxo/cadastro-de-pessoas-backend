@@ -11,14 +11,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import br.com.carloswayand.pessoas.JavaSparkRunnerExtension;
 import br.com.carloswayand.pessoas.JavaSparkRunnerExtension.SparkStarter;
 import br.com.carloswayand.pessoas.core.data.Repository;
-import br.com.carloswayand.pessoas.core.data.MemoryRepository;
 import br.com.carloswayand.pessoas.domain.Pessoa;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
 @ExtendWith({ ResourceTest.class, JavaSparkRunnerExtension.class })
 class PessoaDeleteResourceTest {
-	protected static Repository<Pessoa> repository = new MemoryRepository<Pessoa>();
+	protected static Repository<Pessoa> repository = new PessoaRepository();
 
 	@BeforeAll
 	static void beforeAll(SparkStarter s) {

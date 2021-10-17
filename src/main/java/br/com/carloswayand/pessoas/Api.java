@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.validation.ConstraintViolationException;
 
 import br.com.carloswayand.pessoas.core.data.IdentifiableNotFoundException;
-import br.com.carloswayand.pessoas.resources.pessoa.PessoaResource;
+import br.com.carloswayand.pessoas.resources.pessoa.PessoaResourceBuild;
 import br.com.carloswayand.pessoas.resources.utils.JsonUtils;
 
 public class Api {
@@ -20,12 +20,7 @@ public class Api {
 			response.header("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin,");
 			response.header("Access-Control-Allow-Credentials", "true");
 		});
-		
-		service.options("/api/v1/*", (request, response) -> {
-			response.status(200);
-			return "";
-		});
-		
+
 		service.exception(IdentifiableNotFoundException.class, (exception, request, response) -> {
 			response.status(404);
 		});
@@ -45,10 +40,9 @@ public class Api {
 			});
 
 			response.body("{\"violations\": " + JsonUtils.fromObjectToJson(messages) + "}");
-
 		});
 		
-		PessoaResource.init(service, "/api/v1/pessoas");
+		new PessoaResourceBuild(service).build();
 		
 		service.init();
 	}

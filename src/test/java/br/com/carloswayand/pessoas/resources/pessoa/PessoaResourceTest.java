@@ -1,45 +1,35 @@
 package br.com.carloswayand.pessoas.resources.pessoa;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import br.com.carloswayand.pessoas.JavaSparkRunnerExtension;
 import br.com.carloswayand.pessoas.JavaSparkRunnerExtension.SparkStarter;
-import br.com.carloswayand.pessoas.core.data.Repository;
-import br.com.carloswayand.pessoas.core.data.MemoryRepository;
-import br.com.carloswayand.pessoas.domain.Pessoa;
-import br.com.carloswayand.pessoas.resources.utils.JsonUtils;
+import br.com.carloswayand.pessoas.resources.autenticacao.BasicAuthenticationService;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
 @ExtendWith({ ResourceTest.class, JavaSparkRunnerExtension.class })
 class PessoaResourceTest {
-	protected static Repository<Pessoa> repository = new MemoryRepository<Pessoa>();
-
 	@BeforeAll
 	static void beforeAll(SparkStarter s) {
 		s.runSpark(http -> {
-			PessoaResource.init(http, "/api/v1/pessoas");
+			new PessoaResourceBuild(http).build();
 		});
 	}
 
 	@Test
-	void deveReagirAExcecaoIdentifiableNotFound() {
-		HttpResponse<String> response = Unirest.spawnInstance().get("http://localhost:8080/api/v1/pessoas/1").asString();
-		assertEquals(404, response.getStatus());		
+	void deveCarregarOsServicosDePessoa() {
+		var service = new BasicAuthenticationService();
+		String token = service.authenticate("admin:admin");
+		HttpResponse<String> response = Unirest.spawnInstance().get(ResourceTest.getPath("/api/v1/pessoas"))
+				.header("Authorization", "Basic " + token).asString();
+		assertEquals(200, response.getStatus());
+		assertNotNull(response.getBody());
 	}
-	
-	@Test
-	void deveReagirAExcecaoConstraintViolationException() throws JsonProcessingException {
-		String pessoa = JsonUtils.fromObjectToJson(new Pessoa("", null, ""));
-		HttpResponse<String> response = Unirest.spawnInstance().post("http://localhost:8080/api/v1/pessoas").body(pessoa).asString();
-		assertEquals(400, response.getStatus());
-	}
-	
 
 }

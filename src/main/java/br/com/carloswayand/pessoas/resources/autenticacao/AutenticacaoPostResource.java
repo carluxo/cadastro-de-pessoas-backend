@@ -18,7 +18,8 @@ public class AutenticacaoPostResource implements Route   {
 	public Object handle(Request request, Response response) throws Exception {
 		Autenticacao autenticacao = JsonUtils.fromJsonToObject(request.body(), Autenticacao.class);
 		BeanValidator.validate(autenticacao);
-		this.service.authenticate(autenticacao.toString());
+		String token = this.service.authenticate(autenticacao.toString());
+		response.header("Authorization", "Basic " + token);
 		return "";
 	}
 

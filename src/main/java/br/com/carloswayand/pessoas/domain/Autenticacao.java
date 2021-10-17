@@ -8,6 +8,10 @@ public class Autenticacao {
 	@NotBlank(message="Senha deve ser informada")
 	protected String senha;
 	
+	protected Autenticacao() {
+		
+	}
+	
 	public Autenticacao(String usuario, String senha) {
 		this.usuario = usuario;
 		this.senha = senha;
@@ -15,6 +19,6 @@ public class Autenticacao {
 	
 	@Override
 	public String toString() {
-		return this.usuario + "|" + this.senha;
+		return this.usuario + ":" + this.senha;
 	}
 }

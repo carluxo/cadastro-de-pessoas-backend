@@ -14,7 +14,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import br.com.carloswayand.pessoas.JavaSparkRunnerExtension;
 import br.com.carloswayand.pessoas.JavaSparkRunnerExtension.SparkStarter;
-import br.com.carloswayand.pessoas.core.data.MemoryRepository;
 import br.com.carloswayand.pessoas.domain.Pessoa;
 import br.com.carloswayand.pessoas.resources.utils.JsonResponseTransformer;
 import br.com.carloswayand.pessoas.resources.utils.JsonUtils;
@@ -28,7 +27,7 @@ class PessoaPostResourceTest {
 	@BeforeAll
 	static void beforeAll(SparkStarter s) {
 		s.runSpark(http -> {
-			http.post("/api/v1/pessoas", new PessoaPostResource(new MemoryRepository<Pessoa>()), new JsonResponseTransformer());
+			http.post("/api/v1/pessoas", new PessoaPostResource(new PessoaRepository()), new JsonResponseTransformer());
 		});
 	}
 

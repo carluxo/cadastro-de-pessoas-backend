@@ -26,7 +26,7 @@ class PessoaGetByIdResourceTest {
 	
 	@BeforeAll
 	static void beforeAll(SparkStarter s) {
-		repository = new MemoryRepository<>();
+		repository = new PessoaRepository();
 		
 		s.runSpark(http -> {
 			http.get("/api/v1/pessoas/:id", new PessoaGetByIdResource(repository), new JsonResponseTransformer());

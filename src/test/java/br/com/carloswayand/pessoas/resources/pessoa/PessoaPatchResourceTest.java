@@ -17,7 +17,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import br.com.carloswayand.pessoas.JavaSparkRunnerExtension;
 import br.com.carloswayand.pessoas.JavaSparkRunnerExtension.SparkStarter;
 import br.com.carloswayand.pessoas.core.data.Repository;
-import br.com.carloswayand.pessoas.core.data.MemoryRepository;
 import br.com.carloswayand.pessoas.domain.Pessoa;
 import br.com.carloswayand.pessoas.resources.utils.JsonResponseTransformer;
 import br.com.carloswayand.pessoas.resources.utils.JsonUtils;
@@ -27,7 +26,7 @@ import kong.unirest.Unirest;
 @ExtendWith({ ResourceTest.class, JavaSparkRunnerExtension.class })
 class PessoaPatchResourceTest {
 
-	protected static Repository<Pessoa> repository = new MemoryRepository<Pessoa>();
+	protected static Repository<Pessoa> repository = new PessoaRepository();
 	
 	@BeforeAll
 	static void beforeAll(SparkStarter s) {

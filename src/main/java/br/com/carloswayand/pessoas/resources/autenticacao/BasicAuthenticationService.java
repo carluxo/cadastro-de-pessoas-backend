@@ -1,14 +1,16 @@
 package br.com.carloswayand.pessoas.resources.autenticacao;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 import org.apache.commons.codec.binary.Base64;
 
 public class BasicAuthenticationService implements AuthenticationService {
 	private static final String KEY = "sdhsjkhdfjshdjfhsjdhfkj544dfsdfs54d6f5s";
 	protected static Map<String, String> users = new ConcurrentHashMap<>();
-	protected static Map<String, String> authenticatedies = new ConcurrentHashMap<>();
+	protected static Set<String> authenticatedies = new ConcurrentSkipListSet<>();
 
 	static {
 		users.put("admin", "admin");
@@ -18,13 +20,13 @@ public class BasicAuthenticationService implements AuthenticationService {
 	@Override
 	public String authenticate(String credential) {
 		try {
-			String[] payload = credential.split("|");
+			var payload = credential.split(":");
 
 			if (users.containsKey(payload[0]) && users.get(payload[0]).equals(payload[1])) {
-				var token = credential.replace("|", ":") + ":" + KEY;
+				var token = credential + ":" + KEY;
 				String encoded = Base64.encodeBase64String(token.getBytes());
 				
-				authenticatedies.put(payload[0], encoded);
+				authenticatedies.add(encoded);
 				return encoded;
 			}
 
@@ -38,9 +40,9 @@ public class BasicAuthenticationService implements AuthenticationService {
 	@Override
 	public void verify(String token) {
 		try {
-			String[] basic = token.split("Basic");
+			String[] basic = token.split(" ");
 			
-			if (!authenticatedies.containsKey(basic[1])) {
+			if (!"Basic".equals(basic[0]) || !authenticatedies.contains(basic[1])) {
 				throw new AuthenticationException("Token inválido");
 			}
 		} catch(Exception e) {
