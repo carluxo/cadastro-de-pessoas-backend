@@ -55,7 +55,7 @@ public class BasicAuthenticationService implements AuthenticationService {
 		if (token != null && !token.isBlank()) {
 			String[] basic = token.split(" ");
 			
-			if ("Basic".equals(basic[0]) || authenticatedies.contains(basic[1])) {
+			if ("Basic".equals(basic[0]) && authenticatedies.contains(basic[1])) {
 				authenticatedies.remove(basic[1]);
 			}					
 		}

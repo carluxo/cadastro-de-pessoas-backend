@@ -8,6 +8,7 @@ import javax.validation.ConstraintViolationException;
 import br.com.carloswayand.pessoas.core.data.IdentifiableNotFoundException;
 import br.com.carloswayand.pessoas.resources.autenticacao.AutenticacaoResourceBuild;
 import br.com.carloswayand.pessoas.resources.autenticacao.AuthenticationException;
+import br.com.carloswayand.pessoas.resources.github.GithubResourceBuild;
 import br.com.carloswayand.pessoas.resources.pessoa.PessoaResourceBuild;
 import br.com.carloswayand.pessoas.resources.utils.JsonUtils;
 
@@ -55,6 +56,7 @@ public class Api {
 
 		new PessoaResourceBuild(service).build();
 		new AutenticacaoResourceBuild(service).build();
+		new GithubResourceBuild(service).build();
 
 		service.init();
 	}
