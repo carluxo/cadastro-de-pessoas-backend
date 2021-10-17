@@ -32,5 +32,15 @@ class BasicAuthenticationServiceTest {
 		var service = new BasicAuthenticationService();
 		assertThrows(AuthenticationException.class,() -> service.verify(""));
 	}
+	
+	@Test
+	void deveDesautenticarUsuario() {
+		var service = new BasicAuthenticationService();
+		String token = service.authenticate("admin:admin");
+		
+		assertDoesNotThrow(() -> service.verify("Basic " + token));
+		assertDoesNotThrow(() -> service.unauthenticate(token));
+		assertDoesNotThrow(() -> service.unauthenticate("Basic " + token));
+	}
 
 }
