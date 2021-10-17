@@ -56,8 +56,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
-
-		<build>
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -86,8 +85,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-
-							<mainClass>cadastropessoas.api.Main</mainClass>
+							<mainClass>br.com.carloswayand.pessoas.Api</mainClass>
 							<classpathPrefix>lib</classpathPrefix>
 						</manifest>
 					</archive>
